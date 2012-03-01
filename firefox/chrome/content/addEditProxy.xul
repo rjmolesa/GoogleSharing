@@ -13,7 +13,7 @@
 
 <vbox>
       <hbox>
-	<label value="Add a Google Sharing proxy server of your choice." />
+	<label value="Add a Protected Search proxy server of your choice." />
       </hbox>
       <separator />
       <grid>

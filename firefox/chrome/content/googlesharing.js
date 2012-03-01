@@ -72,8 +72,8 @@ var GoogleShare = {
   },
 
   displayDisabledNotification: function() {
-    this.displayNotification("GoogleSharing Disabled", 
-			     "All proxies are currently unreachable, disabling GoogleSharing.");
+    this.displayNotification("Protected Search Disabled", 
+			     "All proxies are currently unreachable, disabling Protected Search.");
   },
 
   displayProxyFailedNotification: function(proxyName) {
@@ -119,7 +119,7 @@ var GoogleShare = {
     if (this.googleSharingManager.isShortStatus())
       this.setPanelLabel("GS");
     else
-      this.setPanelLabel("Google Sharing Enabled");
+      this.setPanelLabel("Protected Search Enabled");
 
     document.getElementById("googlesharing-panel").setAttribute("style", "color: green;");
     document.getElementById("googlesharing-status-context").label = "Disable";
@@ -129,7 +129,7 @@ var GoogleShare = {
     if (this.googleSharingManager.isShortStatus())
       this.setPanelLabel("GS");
     else
-      this.setPanelLabel("Google Sharing Disabled");
+      this.setPanelLabel("Protected Search Disabled");
 
     document.getElementById("googlesharing-panel").setAttribute("style", "color: red;");
     document.getElementById("googlesharing-status-context").label = "Enable";
@@ -207,36 +207,29 @@ var GoogleShare = {
     element.style.marginLeft    = leftMargin;
     element.appendChild(textNode);
     
-    var linkNode = document.createElement("a");
-    linkNode.setAttribute("href", "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=37GLA89S6BLJQ");
-    linkNode.appendChild(document.createTextNode("donated"));
-
-    element.appendChild(linkNode);
-    element.appendChild(document.createTextNode(" this month?"));
-
     return element;
   },
 
   addTagToMainPage: function(document, baseElement) {
-    var textNode  = document.createTextNode("Search results will be anonymized by GoogleSharing, have you ");
+    var textNode  = document.createTextNode("Search results will be anonymized by Protected Search.");
     var gsElement = this.getGoogleSharingElement(document, textNode, "0px", "0px");
     baseElement.appendChild(gsElement);
   },
 
   addTagToSearchResults: function(document, baseElement) {
-    var textNode = document.createTextNode("Search results anonymized by GoogleSharing, have you ");
+    var textNode = document.createTextNode("Search results anonymized by Protected Search.");
     var gsElement = this.getGoogleSharingElement(document, textNode, "5px", "0px");
     baseElement.appendChild(gsElement);
   },
 
   addTagToMappingResults: function(document, baseElement) {
-    var textNode = document.createTextNode("Mapping results anonymized by GoogleSharing, have you ");
+    var textNode = document.createTextNode("Mapping results anonymized by Protected Search.");
     var gsElement = this.getGoogleSharingElement(document, textNode, "5px", "5px");
     baseElement.appendChild(gsElement);
   },
 
   addTagToProductResults: function(document, baseElement) {
-    var textNode = document.createTextNode("Search results anonymized by GoogleSharing, have you ");
+    var textNode = document.createTextNode("Search results anonymized by Protected Search.");
     var gsElement = this.getGoogleSharingElement(document, textNode, "0px", "0px");
     baseElement.appendChild(gsElement);
   },
@@ -257,7 +250,7 @@ var GoogleShare = {
   },
 
   handleClassicRequest: function() {
-    if (confirm("Disable GoogleSharing SSL upgrade?")) {
+    if (confirm("Disable Protected Search SSL upgrade?")) {
       this.googleSharingManager.getProxyManager().setUpgradeSsl(false);
       this.googleSharingManager.getProxyManager().savePreferences();      
       window.document.location="http://www.google.com/";
