@@ -1,0 +1,6 @@
+These scripts will help you set up a chroot for running your GoogleSharing server in.
+
+The overly simplistic version of a how-to is:
+* Run the setup-chrootdir-shell.sh
+* Run googlesharing using makejail and the provided makejail-user.py script
+* Do this several times and make sure to init all GoogleSharing functionality so the right python dependencies are pulled in
