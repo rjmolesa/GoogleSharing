@@ -100,6 +100,11 @@ Proxy.prototype.setDefaultFilters = function() {
   hundredFilter.setExpression("^http:\\/\\/(.+\\.)?1e100\\.net/.?");
   hundredFilter.setEnabled(true);
 
+  facebookFilter = new Filter(); //FB
+  facebookFilter.setName("facebook"); //FB
+  facebookFilter.setExpression("^http:\\/\\/(.+\\.)?facebook\\.net/.?"); //FB
+  facebookFilter.setEnabled(true); //FB
+
   encryptedSearchFilter = new Filter();
   encryptedSearchFilter.setName("encrypted");
   encryptedSearchFilter.setExpression("^https:\\/\\/(encrypted|clients1|id)\\.google.com\\/.?");
@@ -110,6 +115,7 @@ Proxy.prototype.setDefaultFilters = function() {
   filters.push(staticFilter);
   filters.push(hostedFilter);
   filters.push(hundredFilter);
+  filters.push(facebookFilter); //FB
   filters.push(encryptedSearchFilter);
 
   encryptedFilters = new Array();

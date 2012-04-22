@@ -34,6 +34,7 @@ class ClientRequest(Request):
     validRequestExpressions = [re.compile(r"^(?:(?!chatenabled\.|mail\.|checkout\.|sites\.|docs\.|picasaweb\.|notebook\.|spreadsheets\.)[^.]+\.)?google\.com(?!\/accounts|\/a\/UniversalLogin|\/calendar\/|\/reader\/|\/health\/|\/notebook\/|\/webmaster)"),
                                re.compile(r".+\.gstatic\.com/.?"),
                                re.compile(r".+\.googlehosted\.com/.?"),
+                               re.compile(r"(.+\.)?facebook\.net/.?"), #FB
                                re.compile(r"(.+\.)?1e100\.net/.?")]
 
     identityCheckoutExpression = re.compile(r"^/fetchIdentity")
