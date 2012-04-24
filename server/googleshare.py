@@ -22,9 +22,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
 USA
 
 """
-
-from twisted.internet import epollreactor
-epollreactor.install()
+try:
+	from twisted.internet import epollreactor
+	epollreactor.install()
+except ImportError:
+    _epoll = None
 
 from twisted.web import http
 from twisted.internet import reactor
@@ -113,14 +115,41 @@ def writePidFile():
     pidFile = open("/var/run/googleshare.pid", "wb")
     pidFile.write(str(os.getpid()))
     pidFile.close()
-    
+
+def safe_setgid(running_gid):
+    try:
+        os.setgid(running_gid)
+    except OSError, e:
+        print('Could not set effective group id: %s' % e)
+
+def safe_setuid(running_uid):
+    try:
+        os.setuid(running_uid)
+    except OSError, e:
+        print('Could not set effective group id: %s' % e)    
+
 def dropPrivileges():
     nobody = pwd.getpwnam('nobody')
     adm    = grp.getgrnam('nogroup')
     
-    os.setgroups([adm.gr_gid])
-    os.setgid(adm.gr_gid)
-    os.setuid(nobody.pw_uid)
+    #os.setgroups([adm.gr_gid])
+
+    if os.getuid() == 0:
+        try:
+            safe_setgid(adm.gr_gid)
+        except OverflowError, e:
+            if (adm.gr_gid > 4294967290):
+                foo = adm.gr_gid
+                foo = -4294967296 + foo
+                safe_setgid(foo)
+
+        try:
+            safe_setuid(nobody.pw_uid)
+        except OverflowError, e:
+            if (nobody.pw_uid > 4294967290):
+                foo = nobody.pw_uid
+                foo = -4294967296 + foo
+                safe_setuid(foo)
 
 def initializeLogging(logLevel):
     logging.basicConfig(filename="/var/log/googleshare.log",level=logLevel, 
