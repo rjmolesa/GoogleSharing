@@ -66,6 +66,7 @@ class ClientRequest(Request):
 
         return method == "CONNECT" and (host == "encrypted.google.com" or
                                         host == "clients1.google.com"  or
+                                        host == "connect.facebook.net"  or #FB
                                         host == "id.google.com")
 
     def isValidProxyRequest(self, method, host, path):
@@ -171,7 +172,7 @@ class ClientRequest(Request):
             self.redirectForUpgrade()
         elif (self.isValidConnectRequest(self.method, host)):
             logging.debug("Got connect request...")
-            self.proxyEncryptedRequest();
+            self.proxyEncryptedRequest(host); #FB added host
         elif (self.isIdentityCheckoutRequest(path)):
             logging.debug("Got identity request...")
             self.processIdentityRequest()
@@ -197,11 +198,11 @@ class ClientRequest(Request):
         connectionFactory.protocol = GoogleConnection
         self.reactor.connectTCP(host, 80, connectionFactory, bindAddress=self.channel.factory.outgoingInterface)
 
-    def proxyEncryptedRequest(self):
+    def proxyEncryptedRequest(self, host): #FB added host
         connectionFactory          = GoogleEncryptedConnectionFactory(self)
         connectionFactory.protocol = GoogleEncryptedConnection
 #        self.channel.setRawMode()        
-        self.reactor.connectTCP("encrypted.google.com", 443, connectionFactory,
+        self.reactor.connectTCP(host, 443, connectionFactory, #FB changed host from "encrypted.goog"
                                 bindAddress=self.channel.factory.outgoingInterface)
 
     def redirectForUpgrade(self):
